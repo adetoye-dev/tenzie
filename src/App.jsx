@@ -7,9 +7,23 @@ import { generateNewDie } from "./utilities";
 function App() {
   const [dice, setDice] = useState(allNewDice);
 
+  const holdDice = (dieId) => {
+    setDice((oldDice) =>
+      oldDice.map((die) => {
+        return die.id === dieId ? { ...die, isHeld: !die.isHeld } : die;
+      })
+    );
+  };
+
   const dieElements = dice.map((die) => (
-    <Die key={die.id} value={die.value} isHeld={die.isHeld} />
+    <Die
+      key={die.id}
+      value={die.value}
+      isHeld={die.isHeld}
+      holdDice={() => holdDice(die.id)}
+    />
   ));
+
   return (
     <main className="main">
       <h1 className="title">Tenzies</h1>
