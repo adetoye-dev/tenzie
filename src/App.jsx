@@ -4,13 +4,21 @@ import Die from "./Die";
 import { allNewDice } from "./utilities";
 import { generateNewDie } from "./utilities";
 
-function App() {
+const App = () => {
   const [dice, setDice] = useState(allNewDice);
 
   const holdDice = (dieId) => {
     setDice((oldDice) =>
       oldDice.map((die) => {
         return die.id === dieId ? { ...die, isHeld: !die.isHeld } : die;
+      })
+    );
+  };
+
+  const rollDice = () => {
+    setDice((oldDice) =>
+      oldDice.map((die) => {
+        return die.isHeld ? die : generateNewDie();
       })
     );
   };
@@ -33,9 +41,11 @@ function App() {
       </p>
       <div className="dice-container">{dieElements}</div>
       <span className="roll-counter">Total Roll: 0</span>
-      <button className="roll-dice">Roll</button>
+      <button className="roll-dice" onClick={rollDice}>
+        Roll
+      </button>
     </main>
   );
-}
+};
 
 export default App;
