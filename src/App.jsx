@@ -8,6 +8,7 @@ import { generateNewDie } from "./utilities";
 const App = () => {
   const [dice, setDice] = useState(allNewDice);
   const [completed, setCompleted] = useState(false);
+  const [rollCount, setRollCount] = useState(0);
 
   useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld === true);
@@ -29,6 +30,7 @@ const App = () => {
     if (completed) {
       setDice(allNewDice());
       setCompleted(false);
+      setRollCount(0);
       return;
     }
     setDice((oldDice) =>
@@ -36,6 +38,7 @@ const App = () => {
         return die.isHeld ? die : generateNewDie();
       })
     );
+    setRollCount((oldCount) => oldCount + 1);
   };
 
   const dieElements = dice.map((die) => (
@@ -56,7 +59,7 @@ const App = () => {
         current value between rolls.
       </p>
       <div className="dice-container">{dieElements}</div>
-      <span className="roll-counter">Total Roll: 0</span>
+      <span className="roll-counter">Total Roll: {rollCount}</span>
       <button className="roll-dice" onClick={rollDice}>
         {completed ? "New Game" : "Roll"}
       </button>
