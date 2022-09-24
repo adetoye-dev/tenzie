@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Die from "./Die";
+import Confetti from "react-confetti";
 import { allNewDice } from "./utilities";
 import { generateNewDie } from "./utilities";
 
 const App = () => {
   const [dice, setDice] = useState(allNewDice);
+  const [completed, setCompleted] = useState(false);
+
+  useEffect(() => {
+    const allHeld = dice.every((die) => die.isHeld === true);
+    const allEqual = dice.every((die) => die.value === dice[0].value);
+    if (allHeld && allEqual) {
+      setCompleted(true);
+    }
+  }, [dice]);
 
   const holdDice = (dieId) => {
     setDice((oldDice) =>
@@ -16,6 +26,11 @@ const App = () => {
   };
 
   const rollDice = () => {
+    if (completed) {
+      setDice(allNewDice());
+      setCompleted(false);
+      return;
+    }
     setDice((oldDice) =>
       oldDice.map((die) => {
         return die.isHeld ? die : generateNewDie();
@@ -34,6 +49,7 @@ const App = () => {
 
   return (
     <main className="main">
+      {completed && <Confetti />}
       <h1 className="title">Tenzies</h1>
       <p className="instructions">
         Roll until all dice are the same. Click each die to freeze it at its
@@ -42,7 +58,7 @@ const App = () => {
       <div className="dice-container">{dieElements}</div>
       <span className="roll-counter">Total Roll: 0</span>
       <button className="roll-dice" onClick={rollDice}>
-        Roll
+        {completed ? "New Game" : "Roll"}
       </button>
     </main>
   );
