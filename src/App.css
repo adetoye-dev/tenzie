@@ -23,6 +23,7 @@ body {
   border-radius: 20px;
   padding: 20px;
   display: flex;
+  margin: auto;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
@@ -40,6 +41,23 @@ body {
   font-weight: 400;
   margin-top: 0;
   text-align: center;
+}
+
+.dice-container {
+  display: grid;
+  grid-template: auto auto / repeat(3, 1fr);
+  gap: 20px;
+}
+
+.die-face {
+  height: 50px;
+  width: 50px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .roll-counter {
