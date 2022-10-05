@@ -93,7 +93,15 @@ const App = () => {
         <span className="best-time">
           <i className="fa-solid fa-star"></i>Best Time
           <br />
-          {bestTime ? `${bestTime.min}:${bestTime.sec}` : "00:00"}
+          {bestTime ? (
+            <span>
+              {bestTime.min < 10 && 0}
+              {bestTime.min}:{bestTime.sec < 10 && 0}
+              {bestTime.sec}
+            </span>
+          ) : (
+            "00:00"
+          )}
         </span>
         <span className="current-time">
           Current Time
